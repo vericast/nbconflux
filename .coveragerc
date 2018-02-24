@@ -1,0 +1,9 @@
+[run]
+source=nbconflux
+[report]
+omit =
+    */python?.?/*
+    *test*
+    # ignore _version.py and versioneer.py
+    .*version.*
+    *_version.py

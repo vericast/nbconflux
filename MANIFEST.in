@@ -1,0 +1,3 @@
+include versioneer.py
+include nbconflux/_version.py
+include nbconflux/confluence.tpl
