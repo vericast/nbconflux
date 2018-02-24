@@ -1,4 +1,4 @@
-.PHONY: help clean dev-env test test-debug
+.PHONY: help clean dev-env sdist release test test-debug
 
 # Shell that make should use
 SHELL:=bash
@@ -9,11 +9,16 @@ help:
 
 clean: ## Make a clean source tree
 	-find . -name '*.pyc' -exec rm -fv {} \;
-	rm -rf nbconflux/__pycache__ __pycache__
-	rm -rf *.egg-info
+	rm -rf nbconflux/__pycache__ __pycache__ dist *.egg-info
 
 dev-env: ## Make a developer environment using pip install
 	pip install -r requirements.txt -r requirements-test.txt
+
+sdist: ## Make a source distribution
+	python setup.py sdist
+
+release: clean ## Make a pypi release of a tagged build
+	python setup.py sdist register upload
 
 test: clean ## Make a test run with coverage report
 	python run_tests.py -vxrs tests/
