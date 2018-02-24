@@ -7,6 +7,8 @@ setup(
     cmdclass=versioneer.get_cmdclass(),
     description='Converts Jupyter Notebooks to Atlassian Confluence (R) pages using nbconvert',
     author='Valassis Digital',
+    url='https://github.com/Valassis-Digital-Media/nbconflux',
+    platforms=['Linux', 'Mac OSX', 'Windows'],
     packages=find_packages(),
     include_package_data = True,
     license='BSD 3-Clause',
