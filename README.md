@@ -12,42 +12,39 @@ nbconflux is useful when:
 
 * You use Jupyter notebooks to author computational narratives
 * Your organization uses Confluence to store institutional knowledge
-* You want an easy path to publishing your work in that knowledge base
+* You want an easy way to publish your work in that knowledge base
 
 ## Features
 
 * Converts most cell inputs and outputs to valid [Confluence storage format](https://confluence.atlassian.com/doc/confluence-storage-format-790796544.html)
 * Attaches image outputs (e.g., matplotlib PNGs) to a page, shows them inline,
   and maintains the page-image association in the version history
-* Attaches the source notebook to a page, links to it from the page footer,
-  and maintains the page-notebook association in the version history
+* Attaches the source notebook to a page, links to it from the page footer, and
+  maintains the page-notebook association in the version history
 * Supports sweep-select Confluence comments over most input and output content
 * Excludes input, output, or entire cells based on notebook cell tags `noinput`,
   `nooutput`, or `nocell`
-* Labels pages with `nbconflux` to identify pages that originated as notebooks
+* Labels pages with `nbconflux` to identify content that originated as notebooks
+* Inserts a table of contents macro at the top of the page based on notebook
+  headings
 * Applies the NBViewer stylesheet to pages to blend Confluence styling with
   Jupyter notebook styling (requires the CSS macro)
-* Inserts a table of contents macro at the top of the page based on notebook 
-  headings
 * Enables MathJax rendering (requires the [HTML macro](https://confluence.atlassian.com/doc/html-macro-38273085.html))
-* Supports raw-cell passthrough of Confluence storage format markup -- use
-  it to include custom macros
+* Supports raw-cell passthrough of Confluence storage format markup (e.g., to
+  include Confluence macros)
 * Compatible with Confluence Cloud and Confluence Server
 
 ## Installation
 
-The nbconflux library requires Python 3 to run and `pip` or `conda` to install.
-Once you've satisfied these prerequisites, run either:
+The nbconflux library requires Python 3 to run and `pip` to install.
+Once you've satisfied these prerequisites, run:
 
 ```bash
 pip install nbconflux
 ```
 
-or
+(A conda package is coming soon.)
 
-```bash
-conda install -c conda-forge nbconflux
-```
 
 ## Usage
 
@@ -111,6 +108,11 @@ local machine.
 Q: Why not call it nbconfluence?
 
 A: https://atlassian.com/legal/trademark
+
+Q: Why do I have to create a page on the site first?
+
+A: To avoid introducing the complexity of specifying a space, parent page, and
+   title into the package.
 
 ## License
 
