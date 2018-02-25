@@ -92,7 +92,7 @@ In&nbsp;[&nbsp;]:
 {%- endif -%}
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-{{ cell.source  | markdown2html | strip_files_prefix }}
+{{ cell.source  | markdown2html | strip_files_prefix | sanitize_html }}
 </div>
 </div>
 </div>
@@ -113,7 +113,7 @@ unknown type  {{ cell.type }}
 {% block stream_stdout -%}
 <div class="output_subarea output_stream output_stdout output_text">
 <pre>
-{{- output.text | ansi2html -}}
+{{- output.text | ansi2html | sanitize_html -}}
 </pre>
 </div>
 {%- endblock stream_stdout %}
@@ -121,7 +121,7 @@ unknown type  {{ cell.type }}
 {% block stream_stderr -%}
 <div class="output_subarea output_stream output_stderr output_text">
 <pre>
-{{- output.text | ansi2html -}}
+{{- output.text | ansi2html | sanitize_html -}}
 </pre>
 </div>
 {%- endblock stream_stderr %}
@@ -132,13 +132,13 @@ unknown type  {{ cell.type }}
 
 {% block data_html scoped -%}
 <div class="output_html rendered_html output_subarea {{ extra_class }}">
-{{ output.data['text/html'] }}
+{{ output.data['text/html'] | sanitize_html }}
 </div>
 {%- endblock data_html %}
 
 {% block data_markdown scoped -%}
 <div class="output_markdown rendered_html output_subarea {{ extra_class }}">
-{{ output.data['text/markdown'] | markdown2html }}
+{{ output.data['text/markdown'] | markdown2html | sanitize_html }}
 </div>
 {%- endblock data_markdown %}
 
@@ -173,13 +173,13 @@ unknown type  {{ cell.type }}
 {%- endblock error %}
 
 {%- block traceback_line %}
-{{ line | ansi2html }}
+{{ line | ansi2html | sanitize_html }}
 {%- endblock traceback_line %}
 
 {%- block data_text scoped %}
 <div class="output_text output_subarea {{ extra_class }}">
 <pre>
-{{- output.data['text/plain'] | ansi2html -}}
+{{- output.data['text/plain'] | ansi2html | sanitize_html -}}
 </pre>
 </div>
 {%- endblock -%}

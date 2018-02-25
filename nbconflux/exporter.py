@@ -7,6 +7,7 @@ import urllib.parse as urlparse
 import requests
 
 from .preprocessor import ConfluencePreprocessor
+from .filter import sanitize_html
 from nbconvert import HTMLExporter
 from traitlets import Bool, Unicode
 from traitlets.config import Config
@@ -52,7 +53,7 @@ class ConfluenceExporter(HTMLExporter):
     @property
     def default_config(self):
         overrides = Config({
-            'CSSHTMLHeaderPreprocessor':{
+            'CSSHTMLHeaderPreprocessor': {
                 'enabled': False
             },
             'HighlightMagicsPreprocessor': {
@@ -79,13 +80,19 @@ class ConfluenceExporter(HTMLExporter):
 
     def __init__(self, config, **kwargs):
         config.HTMLExporter.preprocessors = [ConfluencePreprocessor]
+        config.HTMLExporter.filters = {
+            'sanitize_html': sanitize_html
+        }
 
         super(ConfluenceExporter, self).__init__(config=config, **kwargs)
         self._preprocessors[-1].exporter = self
 
         self.template_path = [os.path.abspath(os.path.dirname(__file__))]
         self.template_file = 'confluence'
-        self.anchor_link_text = ''
+        # Must be at least a single character, or the header generator produces
+        # an (invalid?) empty anchor tag that trips up bleach during
+        # sanitization
+        self.anchor_link_text = ' '
 
         self.server, self.page_id = self.get_server_info(self.url)
         self.notebook_filename = None
