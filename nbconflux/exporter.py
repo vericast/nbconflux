@@ -6,8 +6,8 @@ import urllib.parse as urlparse
 
 import requests
 
+from .filter import sanitize_html, markdown2html_mistune
 from .preprocessor import ConfluencePreprocessor
-from .filter import sanitize_html
 from nbconvert import HTMLExporter
 from traitlets import Bool, Unicode
 from traitlets.config import Config
@@ -81,7 +81,8 @@ class ConfluenceExporter(HTMLExporter):
     def __init__(self, config, **kwargs):
         config.HTMLExporter.preprocessors = [ConfluencePreprocessor]
         config.HTMLExporter.filters = {
-            'sanitize_html': sanitize_html
+            'sanitize_html': sanitize_html,
+            'markdown2html': markdown2html_mistune
         }
 
         super(ConfluenceExporter, self).__init__(config=config, **kwargs)
