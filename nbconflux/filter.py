@@ -1,3 +1,5 @@
+import re
+
 import nbconvert.filters.markdown_mistune as markdown
 
 from bleach import Cleaner
@@ -5,25 +7,28 @@ from html5lib.filters.base import Filter
 
 # Tags, attributes, and styles allowed in Confluence storage format according to
 # https://confluence.atlassian.com/doc/confluence-storage-format-790796544.html
-# hr and br are omitted due to https://github.com/mozilla/bleach/issues/28
 ALLOWED_TAGS = ['a', 'ac:image', 'ac:layout', 'ac:layout-cell', 'ac:layout-section', 'ac:link',
-                'ac:plain-text-link-body', 'ac:task-list', 'big', 'blockquote', 'code', 'div',
-                'em', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'i', 'li', 'ol', 'p', 'pre',
+                'ac:plain-text-link-body', 'ac:task-list', 'big', 'blockquote', 'br', 'code', 'div',
+                'em', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'hr', 'i', 'li', 'ol', 'p', 'pre',
                 'ri:attachment', 'ri:page', 'small', 'span', 'strong', 'sub', 'sup', 'table',
                 'tbody', 'td', 'tfoot', 'th', 'thead', 'tr', 'tt', 'u', 'ul',
+                'ac:structured-macro', 'ac:parameter',
                 # Allow for full removal with RemovalFilter
                 'style']
 
 ALLOWED_ATTRS = {'*': ['class'], 'a': ['href', 'title'], 'span': ['style'],
                  'ri:page': ['ri:content-title'], 'ri:attachment': ['ri:filename'],
                  'ac:link': ['ac:anchor'], 'ri:page': ['ri:content-title'],
-                 'ri:url': ['ri:value'], 'ac:layout-section': ['ac:type']}
+                 'ri:url': ['ri:value'], 'ac:layout-section': ['ac:type'],
+                 'ac:parameter': ['ac:name'],
+                 'ac:structured-macro': ['ac:name', 'ac:schema-version']}
 
 ALLOWED_STYLES = ['color', 'text-align', 'text-decoration']
 
 # Tags that will be removed along with all of their descendants
 REMOVED_TAGS = ['style']
 
+EMPTY_TAG_REGEX = re.compile('<(hr|br)>')
 
 class RemovalFilter(Filter):
     """Removes tags and all of their descendants."""
@@ -41,8 +46,12 @@ class RemovalFilter(Filter):
 
 def sanitize_html(source):
     """Uses bleach to sanitize HTML of any tags and attributes that are
-    invalid in Confluence storage format."""
-    return Cleaner(
+    invalid in Confluence storage format.
+
+    Uses a regex to workaround https://github.com/mozilla/bleach/issues/28 in
+    common cases.
+    """
+    html = Cleaner(
         tags=ALLOWED_TAGS,
         attributes=ALLOWED_ATTRS,
         styles=ALLOWED_STYLES,
@@ -50,6 +59,7 @@ def sanitize_html(source):
         strip=True,
         strip_comments=True
     ).clean(source)
+    return EMPTY_TAG_REGEX.sub(r'<\1/>', html)
 
 
 def markdown2html_mistune(source):
