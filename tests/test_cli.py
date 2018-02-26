@@ -29,6 +29,7 @@ def mock_notebook_to_page(notebook, url, username, password, generate_toc, attac
 
 def test_cli_args(argv, monkeypatch):
     """Should respect command line arguments."""
+    monkeypatch.setattr('os.path.isfile', lambda x: False)
     monkeypatch.setattr(cli, 'notebook_to_page', mock_notebook_to_page)
     monkeypatch.setitem(__builtins__, 'input', lambda x: 'fake-username')
     monkeypatch.setattr('getpass.getpass', lambda x: 'fake-password')
@@ -37,6 +38,7 @@ def test_cli_args(argv, monkeypatch):
 
 def test_blank_username(argv, monkeypatch):
     """Should default to the current username."""
+    monkeypatch.setattr('os.path.isfile', lambda x: False)
     monkeypatch.setattr(cli, 'notebook_to_page', mock_notebook_to_page)
     monkeypatch.setitem(__builtins__, 'input', lambda x: '')
     monkeypatch.setattr('getpass.getpass', lambda x: 'fake-password')
@@ -46,6 +48,7 @@ def test_blank_username(argv, monkeypatch):
 
 def test_cli_env_vars(argv, monkeypatch):
     """Should use credentials from the environment."""
+    monkeypatch.setattr('os.path.isfile', lambda x: False)
     monkeypatch.setattr(cli, 'notebook_to_page', mock_notebook_to_page)
     monkeypatch.setenv('CONFLUENCE_USERNAME', 'fake-username')
     monkeypatch.setenv('CONFLUENCE_PASSWORD', 'fake-password')
