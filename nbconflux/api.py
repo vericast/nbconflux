@@ -21,8 +21,7 @@ def notebook_to_page(notebook_file, confluence_url, username=None, password=None
         Page URL to update with the notebook content. The page must
         already exist.
     username: str, optional
-        Confluence username. Uses the current username if not specified,
-        stripping the "p-" prefix, if present.
+        Confluence username. Uses the current username if not specified.
     password: str, optional
         Confluence password. Prompts for the password if not given.
     generate_toc: bool, optional
