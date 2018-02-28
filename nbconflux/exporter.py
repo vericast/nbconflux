@@ -6,9 +6,10 @@ import urllib.parse as urlparse
 
 import requests
 
-from .filter import sanitize_html, markdown2html_mistune
+from .filter import sanitize_html
 from .preprocessor import ConfluencePreprocessor
 from nbconvert import HTMLExporter
+from nbconvert.filters.markdown_mistune import IPythonRenderer, MarkdownWithMath
 from traitlets import Bool, Unicode
 from traitlets.config import Config
 
@@ -82,7 +83,6 @@ class ConfluenceExporter(HTMLExporter):
         config.HTMLExporter.preprocessors = [ConfluencePreprocessor]
         config.HTMLExporter.filters = {
             'sanitize_html': sanitize_html,
-            'markdown2html': markdown2html_mistune
         }
 
         super(ConfluenceExporter, self).__init__(config=config, **kwargs)
@@ -267,7 +267,16 @@ class ConfluenceExporter(HTMLExporter):
                              auth=(self.username, self.password))
         resp.raise_for_status()
         return resp
-        
+
+    def markdown2html(self, source):
+        """Override the base class implementation to force empty tags to be
+        XHTML compliant for compatibility with Confluence storage format.
+        """
+        renderer = IPythonRenderer(escape=False,
+                                   use_xhtml=True,
+                                   anchor_link_text=self.anchor_link_text)
+        return MarkdownWithMath(renderer=renderer).render(source)
+
     def from_notebook_node(self, nb, resources=None, **kw):
         """Publishes a notebook to Confluence given a notebook object
         from nbformat.

@@ -1,7 +1,5 @@
 import re
 
-import nbconvert.filters.markdown_mistune as markdown
-
 from bleach import Cleaner
 from html5lib.filters.base import Filter
 
@@ -60,11 +58,3 @@ def sanitize_html(source):
         strip_comments=True
     ).clean(source)
     return EMPTY_TAG_REGEX.sub(r'<\1/>', html)
-
-
-def markdown2html_mistune(source):
-    """Override the nbconvert implementation to force empty tags to be XHTML
-    compliant for compatibility with Confluence storage format."""
-    return markdown.MarkdownWithMath(
-        renderer=markdown.IPythonRenderer(escape=False, use_xhtml=True),
-    ).render(source)
