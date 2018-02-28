@@ -208,8 +208,8 @@ unknown type  {{ cell.type }}
 
 <ac:structured-macro ac:macro-id="8250dedf-fcaa-48da-b12d-0f929c620dc4" ac:name="style" ac:schema-version="1">
     <ac:plain-text-body><![CDATA[
-        a[class="anchor-link"] {
-            display: none;
+        a.anchor-link {
+            display: none !important;
         }
         body div.output_subarea {
             max-width: none;
