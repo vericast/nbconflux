@@ -8,7 +8,7 @@ import pytest
 
 @pytest.fixture(scope='module')
 def notebook_path(request):
-    return os.path.join(os.path.abspath(os.path.dirname(request.module.__file__)), 'nbconflux-test.ipynb')
+    return os.path.join(os.path.abspath(os.path.dirname(request.module.__file__)), 'notebooks', 'nbconflux-test.ipynb')
 
 
 @pytest.fixture(scope='module')
