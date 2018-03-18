@@ -117,3 +117,12 @@ A: To avoid introducing the complexity of specifying a space, parent page, and
 ## License
 
 Copyright (c) 2018 Valassis Digital under the terms of the BSD 3-Clause license
+
+## dev
+
+To run the tests:
+
+```
+make dev-env
+make test
+```
