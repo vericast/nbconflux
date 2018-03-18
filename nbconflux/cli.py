@@ -52,7 +52,7 @@ def main(argv=None):
 
     notebook_to_page(args.notebook, args.url, username, password,
         generate_toc=not args.exclude_toc, attach_ipynb=not args.exclude_ipynb,
-        enable_style=not args.exclude_style, enable_mathjax=args.include_mathjax)
+        include_style=not args.exclude_style, include_mathjax=args.include_mathjax)
 
 if __name__ == '__main__':
     main()

@@ -16,15 +16,15 @@ def argv():
 
 
 def mock_notebook_to_page(notebook, url, username, password, generate_toc, attach_ipynb,
-        enable_style, enable_mathjax):
+        include_style, include_mathjax):
     assert notebook == 'fake-notebook.ipynb'
     assert url == 'https://confluence.localhost/some/page'
     assert username == 'fake-username'
     assert password == 'fake-password'
     assert not generate_toc
     assert not attach_ipynb
-    assert not enable_style
-    assert enable_mathjax
+    assert not include_style
+    assert include_mathjax
 
 
 def test_cli_args(argv, monkeypatch):
