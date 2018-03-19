@@ -16,7 +16,7 @@ ALLOWED_TAGS = ['a', 'ac:image', 'ac:layout', 'ac:layout-cell', 'ac:layout-secti
 
 ALLOWED_ATTRS = {'*': ['class'], 'a': ['href', 'title'], 'span': ['style'],
                  'ri:page': ['ri:content-title'], 'ri:attachment': ['ri:filename'],
-                 'ac:link': ['ac:anchor'], 'ri:page': ['ri:content-title'],
+                 'ac:link': ['ac:anchor'],
                  'ri:url': ['ri:value'], 'ac:layout-section': ['ac:type'],
                  'ac:parameter': ['ac:name'],
                  'ac:structured-macro': ['ac:name', 'ac:schema-version']}
