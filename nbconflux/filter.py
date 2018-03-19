@@ -19,7 +19,8 @@ ALLOWED_ATTRS = {'*': ['class'], 'a': ['href', 'title'], 'span': ['style'],
                  'ac:link': ['ac:anchor'],
                  'ri:url': ['ri:value'], 'ac:layout-section': ['ac:type'],
                  'ac:parameter': ['ac:name'],
-                 'ac:structured-macro': ['ac:name', 'ac:schema-version']}
+                 'ac:structured-macro': ['ac:name', 'ac:schema-version'],
+                 'td': ['rowspan', 'colspan'], 'th': ['rowspan', 'colspan']}
 
 ALLOWED_STYLES = ['color', 'text-align', 'text-decoration']
 
