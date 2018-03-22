@@ -76,7 +76,9 @@ def test_post_to_confluence(notebook_path, page_url, server):
         })
     # Mock updating the page content
     server.add('PUT', 'http://confluence.localhost/rest/api/content/12345')
-    # Mock adding the page label
+    # Mock adding the page label (we expect this to be invoked three times, once for each label)
+    server.add('POST', 'http://confluence.localhost/rest/api/content/12345/label')
+    server.add('POST', 'http://confluence.localhost/rest/api/content/12345/label')
     server.add('POST', 'http://confluence.localhost/rest/api/content/12345/label')
     # Mock updating attachments
     server.add('POST', 'http://confluence.localhost/rest/api/content/12345/child/attachment/1/data')
