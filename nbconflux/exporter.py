@@ -10,7 +10,7 @@ from .filter import sanitize_html
 from .preprocessor import ConfluencePreprocessor
 from nbconvert import HTMLExporter
 from nbconvert.filters.markdown_mistune import IPythonRenderer, MarkdownWithMath
-from traitlets import Bool, Unicode
+from traitlets import Bool, List, Unicode
 from traitlets.config import Config
 
 
@@ -50,6 +50,7 @@ class ConfluenceExporter(HTMLExporter):
     attach_ipynb = Bool(config=True, default_value=True, help='Attach the notebook ipynb to the page?')
     enable_style = Bool(config=True, default_value=True, help='Add basic Jupyter stylesheet?')
     enable_mathjax = Bool(config=True, default_value=False, help='Add MathJax to the page to render equations?')
+    extra_labels = List(config=True, trait=Unicode(), help='List of additional labels to add to the page')
 
     @property
     def default_config(self):
@@ -214,13 +215,15 @@ class ConfluenceExporter(HTMLExporter):
                            )
         resp.raise_for_status()
 
-    def add_label(self, page_id):
-        """Adds the "nbconflux" label with global prefix to the page.
+    def add_label(self, page_id, label):
+        """Adds a label with global prefix to the page.
 
         Parameters
         ----------
         page_id: int
             Confluence page ID
+        label: str
+            Label to add
 
         Raises
         ------
@@ -229,10 +232,9 @@ class ConfluenceExporter(HTMLExporter):
         """
         # Add the nbconflux label to the set of labels. OK if it already exists.
         resp = requests.post('{server}/rest/api/content/{page_id}/label'.format(server=self.server,
-                                                                        page_id=page_id),
-            json=[dict(prefix='global', name='nbconflux')],
-            auth=(self.username, self.password)
-        )
+                                                                                page_id=page_id),
+                             json=[dict(prefix='global', name=label)],
+                             auth=(self.username, self.password))
         resp.raise_for_status()
 
     def add_or_update_attachment(self, filename, data, resources):
@@ -308,7 +310,12 @@ class ConfluenceExporter(HTMLExporter):
         # Update the page with the new content
         self.update_page(self.page_id, html)
         # Add the nbconflux label to the page for tracking
-        self.add_label(self.page_id)
+        self.add_label(self.page_id, 'nbconflux')
+        # If requested, add any extra labels to the page
+        if self.extra_labels:
+            for label in self.extra_labels:
+                self.add_label(self.page_id, label)
+
         # Create or update all attachments on the page
         for filename, data in resources.get('outputs', {}).items():
             self.add_or_update_attachment(filename, data, resources)

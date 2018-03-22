@@ -82,7 +82,8 @@ def test_post_to_confluence(notebook_path, page_url, server):
     server.add('POST', 'http://confluence.localhost/rest/api/content/12345/child/attachment/1/data')
     server.add('POST', 'http://confluence.localhost/rest/api/content/12345/child/attachment')
 
-    html, resources = nbconflux.notebook_to_page(notebook_path, page_url, 'fake-username', 'fake-pass')
+    html, resources = nbconflux.notebook_to_page(notebook_path, page_url, 'fake-username', 'fake-pass',
+                                                 extra_labels=['extra-label-1', 'extra-label-2'])
 
     # Includes a table of contents macro
     assert 'ac:name="toc"' in html
@@ -102,21 +103,32 @@ def test_post_to_confluence(notebook_path, page_url, server):
     # MathJax not included
     assert 'MathJax' not in html
 
-    # Label added to page
+    # Default label added to page
     req = server.calls[4].request
     assert req.method == 'POST'
     assert b'nbconflux' in req.body
     assert 'Authorization' in req.headers
 
-    # Existing image attachment updated
+    # Additional labels added to page
     req = server.calls[5].request
+    assert req.method == 'POST'
+    assert b'extra-label-1' in req.body
+    assert 'Authorization' in req.headers
+
+    req = server.calls[6].request
+    assert req.method == 'POST'
+    assert b'extra-label-2' in req.body
+    assert 'Authorization' in req.headers
+
+    # Existing image attachment updated
+    req = server.calls[7].request
     assert req.method == 'POST'
     assert b'PNG' in req.body
     assert b'filename="output_6_0.png"' in req.body
     assert 'Authorization' in req.headers
 
     # New notebook attachment created
-    req = server.calls[6].request
+    req = server.calls[8].request
     assert req.method == 'POST'
     assert b'filename="nbconflux-test.ipynb"' in req.body
     assert b'"nbformat": 4' in req.body
