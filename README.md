@@ -85,6 +85,8 @@ optional arguments:
   --exclude-ipynb    Do not attach the notebook to the page
   --exclude-style    Do not include the Jupyter base stylesheet
   --include-mathjax  Enable MathJax on the page
+  --extra-labels EXTRA_LABELS [EXTRA_LABELS ...]
+                     Additional labels to add to the page
 
 Collects credentials from the following locations:
 1. CONFLUENCE_USERNAME and CONFLUENCE_PASSWORD environment variables
