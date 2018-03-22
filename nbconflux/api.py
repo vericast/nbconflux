@@ -5,7 +5,7 @@ from traitlets.config import Config
 
 
 def notebook_to_page(notebook_file, confluence_url, username=None, password=None,
-    generate_toc=True, attach_ipynb=True, enable_style=True, enable_mathjax=False):
+    generate_toc=True, attach_ipynb=True, include_style=True, include_mathjax=False):
     """Transforms the given notebook file into Confluence storage format and
     updates the given Confluence URL with its content.
 
@@ -28,9 +28,9 @@ def notebook_to_page(notebook_file, confluence_url, username=None, password=None
         Insert a Confluence table of contents macro at the top of the page (default: True)
     attach_ipynb: bool, optional
         Attach the notebook ipynb to the page and link to it from the page footer (default: True)
-    enable_style: bool, optional
+    include_style: bool, optional
         Include the Jupyter base stylesheet (default: True)
-    enable_mathjax: bool, optional
+    include_mathjax: bool, optional
         Include the MathJax script and configuration (default: False)
     """
     if username is None:
@@ -44,8 +44,8 @@ def notebook_to_page(notebook_file, confluence_url, username=None, password=None
     c.ConfluenceExporter.password = password
     c.ConfluenceExporter.generate_toc = generate_toc
     c.ConfluenceExporter.attach_ipynb = attach_ipynb
-    c.ConfluenceExporter.enable_style = enable_style
-    c.ConfluenceExporter.enable_mathjax = enable_mathjax
+    c.ConfluenceExporter.include_style = include_style
+    c.ConfluenceExporter.include_mathjax = include_mathjax
 
     exporter = ConfluenceExporter(c)
     result = exporter.from_filename(notebook_file)

@@ -38,9 +38,9 @@ class ConfluenceExporter(HTMLExporter):
         Insert a Confluence table of contents macro at the top of the page (default: True)
     attach_ipynb: traitlets.Bool
         Attach the notebook ipynb to the page and link to it from the page footer (default: True)
-    enable_style: traitlets.Bool
+    include_style: traitlets.Bool
         Add the Jupyter base stylesheet to the page (default: True)
-    enable_mathjax: traitlets.Bool
+    include_mathjax: traitlets.Bool
         Add MathJax to the page to render equations (default: False)
     """
     url = Unicode(config=True, help='Confluence URL to update with notebook content')
@@ -48,8 +48,8 @@ class ConfluenceExporter(HTMLExporter):
     password = Unicode(config=True, help='Confluence password')
     generate_toc = Bool(config=True, default_value=True, help='Show a table of contents at the top of the page?')
     attach_ipynb = Bool(config=True, default_value=True, help='Attach the notebook ipynb to the page?')
-    enable_style = Bool(config=True, default_value=True, help='Add basic Jupyter stylesheet?')
-    enable_mathjax = Bool(config=True, default_value=False, help='Add MathJax to the page to render equations?')
+    include_style = Bool(config=True, default_value=True, help='Add basic Jupyter stylesheet?')
+    include_mathjax = Bool(config=True, default_value=False, help='Add MathJax to the page to render equations?')
 
     @property
     def default_config(self):
@@ -299,8 +299,8 @@ class ConfluenceExporter(HTMLExporter):
         # Seed resources with option flags
         resources = resources if resources is not None else {}
         resources['generate_toc'] = self.generate_toc
-        resources['enable_mathjax'] = self.enable_mathjax
-        resources['enable_style'] = self.enable_style
+        resources['include_mathjax'] = self.include_mathjax
+        resources['include_style'] = self.include_style
 
         # Convert the notebook to Confluence storage format, which is XHTML-like
         html, resources = super(ConfluenceExporter, self).from_notebook_node(nb, resources, **kw)

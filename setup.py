@@ -15,6 +15,9 @@ setup(
     entry_points = {
         'console_scripts': [
             'nbconflux = nbconflux.cli:main'
+        ],
+        'nbconvert.exporters': [
+            'confluence = nbconflux.exporter:ConfluenceExporter'
         ]
     },
     install_requires=[
