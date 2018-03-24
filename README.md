@@ -120,7 +120,7 @@ A: To avoid introducing the complexity of specifying a space, parent page, and
 
 Copyright (c) 2018 Valassis Digital under the terms of the BSD 3-Clause license
 
-## dev
+## Development
 
 To run the tests:
 
@@ -128,3 +128,16 @@ To run the tests:
 make dev-env
 make test
 ```
+
+## Maintenance
+
+To make a release:
+
+1. Meet all the requirements described in
+   https://dustingram.com/articles/2018/03/16/markdown-descriptions-on-pypi
+   to support pushing the Markdown README as the long description on PyPI.
+2. `git commit -m 'REL: 0.6.0' --allow-empty`
+3. `git tag -a 0.6.0 -m 'REL: 0.6.0'`
+4. `git push origin master` and `git push origin master --tags` or use a PR
+5. Run `make release`.
+6. Enter your PyPI creds when prompted.

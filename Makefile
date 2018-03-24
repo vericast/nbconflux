@@ -14,11 +14,12 @@ clean: ## Make a clean source tree
 dev-env: ## Make a developer environment using pip install
 	pip install -r requirements.txt -r requirements-test.txt
 
-sdist: ## Make a source distribution
+sdist: clean ## Make a source distribution
 	python setup.py sdist
 
-release: clean ## Make a pypi release of a tagged build
-	python setup.py sdist register upload
+release: sdist ## Make a pypi release
+	python setup.py sdist
+	twine upload dist/*.tar.gz
 
 test: clean ## Make a test run with coverage report
 	python run_tests.py -vxrs tests/
