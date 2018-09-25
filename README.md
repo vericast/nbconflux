@@ -144,3 +144,5 @@ To make a release:
 4. `git push origin master` and `git push origin master --tags` or use a PR
 5. Run `make release`.
 6. Enter your PyPI creds when prompted.
+
+Test
