@@ -91,6 +91,8 @@ def test_post_to_confluence(notebook_path, page_url, server):
     assert 'ac:name="toc"' in html
     # Markdown is HTML
     assert re.search('<h1[^>]*>Notebook for Testing', html) is not None
+    # Makrdown image is <ac:image>
+    assert '<ac:image><ri:url ri:value="https://upload.wikimedia.org/wikipedia/en/d/d5/Francis_Anscombe.jpeg" /></ac:image>' in html
     # Image is a properly versioned attachment
     assert '<ac:image><ri:url ri:value="http://confluence.localhost/download/attachments/12345/output_6_0.png?version=6" /></ac:image>' in html
     # Input hidden, output shown
