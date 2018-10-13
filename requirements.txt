@@ -1,3 +1,5 @@
+bleach
+html5lib
 nbconvert>=5.3
 requests
 traitlets
