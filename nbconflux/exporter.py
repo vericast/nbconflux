@@ -7,9 +7,10 @@ import urllib.parse as urlparse
 import requests
 
 from .filter import sanitize_html
+from .markdown import ConfluenceMarkdownRenderer
 from .preprocessor import ConfluencePreprocessor
 from nbconvert import HTMLExporter
-from nbconvert.filters.markdown_mistune import IPythonRenderer, MarkdownWithMath
+from nbconvert.filters.markdown_mistune import MarkdownWithMath
 from traitlets import Bool, List, Unicode
 from traitlets.config import Config
 
@@ -274,9 +275,9 @@ class ConfluenceExporter(HTMLExporter):
         """Override the base class implementation to force empty tags to be
         XHTML compliant for compatibility with Confluence storage format.
         """
-        renderer = IPythonRenderer(escape=False,
-                                   use_xhtml=True,
-                                   anchor_link_text=self.anchor_link_text)
+        renderer = ConfluenceMarkdownRenderer(escape=False,
+                                              use_xhtml=True,
+                                              anchor_link_text=self.anchor_link_text)
         return MarkdownWithMath(renderer=renderer).render(source)
 
     def from_notebook_node(self, nb, resources=None, **kw):

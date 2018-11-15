@@ -8,15 +8,15 @@ from html5lib.filters.base import Filter
 ALLOWED_TAGS = ['a', 'ac:image', 'ac:layout', 'ac:layout-cell', 'ac:layout-section', 'ac:link',
                 'ac:plain-text-link-body', 'ac:task-list', 'big', 'blockquote', 'br', 'code', 'div',
                 'em', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'hr', 'i', 'li', 'ol', 'p', 'pre',
-                'ri:attachment', 'ri:page', 'small', 'span', 'strong', 'sub', 'sup', 'table',
-                'tbody', 'td', 'tfoot', 'th', 'thead', 'tr', 'tt', 'u', 'ul',
+                'ri:attachment', 'ri:page', 'ri:url', 'small', 'span', 'strong', 'sub', 'sup',
+                'table', 'tbody', 'td', 'tfoot', 'th', 'thead', 'tr', 'tt', 'u', 'ul',
                 'ac:structured-macro', 'ac:parameter',
                 # Allow for full removal with RemovalFilter
                 'style']
 
 ALLOWED_ATTRS = {'*': ['class'], 'a': ['href', 'title'], 'span': ['style'],
                  'ri:page': ['ri:content-title'], 'ri:attachment': ['ri:filename'],
-                 'ac:link': ['ac:anchor'],
+                 'ac:image': ['ac:title', 'ac:alt'], 'ac:link': ['ac:anchor'],
                  'ri:url': ['ri:value'], 'ac:layout-section': ['ac:type'],
                  'ac:parameter': ['ac:name'],
                  'ac:structured-macro': ['ac:name', 'ac:schema-version'],
