@@ -27,8 +27,9 @@ setup(
         ]
     },
     install_requires=[
-        'nbconvert>=5.3'
-        'requests'
-        'traitlets'
+        'nbconvert>=5.3',
+        'requests',
+        'traitlets',
+        'html5lib',
     ],
 )
