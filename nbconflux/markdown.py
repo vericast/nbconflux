@@ -19,7 +19,7 @@ class ConfluenceMarkdownRenderer(IPythonRenderer):
         str
             Confluence storage format image tag
         """
-        title = f'ac:title="{title}"' if title else ''
-        alt_text = f'ac:alt="{alt_text}"' if alt_text else ''
-        html = f'<ac:image {title} {alt_text}><ri:url ri:value="{src}" /></ac:image>'
+        title = 'ac:title="{title}"'.format(title=title) if title else ''
+        alt_text = 'ac:alt="{alt_text}"'.format(alt_text=alt_text) if alt_text else ''
+        html = '<ac:image {title} {alt_text}><ri:url ri:value="{src}" /></ac:image>'.format(title=title, alt_text=alt_text, src=src)
         return html
