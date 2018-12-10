@@ -27,6 +27,7 @@ setup(
         ]
     },
     install_requires=[
+        'bleach',
         'nbconvert>=5.3',
         'requests',
         'traitlets',
