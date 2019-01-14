@@ -119,6 +119,20 @@ Q: Why do I have to create a page on the site first?
 A: To avoid introducing the complexity of specifying a space, parent page, and
    title into the package.
 
+Q: How do I use nbconflux if my organization has enabled two-factor
+   authentication (2FA) for our Confluence Cloud instance?
+
+A: You can login with an Atlassian API Token in place of your password as
+   described in the [API tokens](https://confluence.atlassian.com/cloud/api-tokens-938839638.html)
+   documentation.
+
+   1. Sign into https://id.atlassian.com.
+   2. Under *Security* go to *API Tokens* then *Create API Token*.
+   3. Give the token a meaningful label so that access can be revoked later.
+   4. The token will be copied to the clipboard.
+   5. Use the token in place of your account password with any of the nbconflux
+      supported auth methods (e.g., environment variable, password prompt).
+
 ## License
 
 Copyright (c) 2018 Valassis Digital under the terms of the BSD 3-Clause license
