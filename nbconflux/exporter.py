@@ -203,6 +203,9 @@ class ConfluenceExporter(HTMLExporter):
         version = content['version']['number']
         # Newer Confluence requires title when posting the page back
         title = content['title']
+        type_ = content['type']
+
+        print(resp.text)
 
         # Update the page with the new content.
         resp = requests.put('{server}/rest/api/content/{page_id}'.format(server=self.server,
@@ -210,7 +213,7 @@ class ConfluenceExporter(HTMLExporter):
                             json={
                                'version': {"number":version + 1},
                                'title': title,
-                               'type': 'page',
+                               'type': type_,
                                'body': {
                                    'storage': {
                                        'representation': 'storage',
@@ -221,6 +224,10 @@ class ConfluenceExporter(HTMLExporter):
                             auth=(self.username, self.password),
                             cookies=self.cookies
                            )
+
+        if not resp.ok:
+            print(resp.text)
+
         resp.raise_for_status()
 
     def add_label(self, page_id, label):
