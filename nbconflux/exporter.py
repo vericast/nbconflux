@@ -11,7 +11,7 @@ from .markdown import ConfluenceMarkdownRenderer
 from .preprocessor import ConfluencePreprocessor
 from nbconvert import HTMLExporter
 from nbconvert.filters.markdown_mistune import MarkdownWithMath
-from traitlets import Bool, List, Unicode
+from traitlets import Bool, List, Unicode, Dict
 from traitlets.config import Config
 
 
@@ -35,6 +35,8 @@ class ConfluenceExporter(HTMLExporter):
         Basic auth username
     password: traitlets.Unicode
         Basic auth password
+    cookies: traitlets.Dict
+        Cookies to pass with the request
     generate_toc: bool, optional
         Insert a Confluence table of contents macro at the top of the page (default: True)
     attach_ipynb: traitlets.Bool
@@ -47,6 +49,7 @@ class ConfluenceExporter(HTMLExporter):
     url = Unicode(config=True, help='Confluence URL to update with notebook content')
     username = Unicode(config=True, help='Confluence username')
     password = Unicode(config=True, help='Confluence password')
+    cookies = Dict(config=True, help='Confluence cookies')
     generate_toc = Bool(config=True, default_value=True, help='Show a table of contents at the top of the page?')
     attach_ipynb = Bool(config=True, default_value=True, help='Attach the notebook ipynb to the page?')
     enable_style = Bool(config=True, default_value=True, help='Add basic Jupyter stylesheet?')
@@ -159,7 +162,8 @@ class ConfluenceExporter(HTMLExporter):
             resp = requests.get('{server}/rest/api/content?title={title}&spaceKey={space}'.format(server=server,
                                                                                                   title=title,
                                                                                                   space=space),
-                                auth=(self.username, self.password)
+                                auth=(self.username, self.password),
+                                cookies=self.cookies
                                )
             resp.raise_for_status()
             results = resp.json()['results']
@@ -191,12 +195,17 @@ class ConfluenceExporter(HTMLExporter):
         # Fetch version number from the existing page so that we can increment it by 1.
         resp = requests.get('{server}/rest/api/content/{page_id}'.format(server=self.server,
                                                                          page_id=page_id),
-                            auth=(self.username, self.password))
+                            auth=(self.username, self.password),
+                            cookies=self.cookies
+                            )
         resp.raise_for_status()
         content = resp.json()
         version = content['version']['number']
         # Newer Confluence requires title when posting the page back
         title = content['title']
+        type_ = content['type']
+
+        print(resp.text)
 
         # Update the page with the new content.
         resp = requests.put('{server}/rest/api/content/{page_id}'.format(server=self.server,
@@ -204,7 +213,7 @@ class ConfluenceExporter(HTMLExporter):
                             json={
                                'version': {"number":version + 1},
                                'title': title,
-                               'type': 'page',
+                               'type': type_,
                                'body': {
                                    'storage': {
                                        'representation': 'storage',
@@ -212,8 +221,13 @@ class ConfluenceExporter(HTMLExporter):
                                    }
                                }
                             },
-                            auth=(self.username, self.password)
+                            auth=(self.username, self.password),
+                            cookies=self.cookies
                            )
+
+        if not resp.ok:
+            print(resp.text)
+
         resp.raise_for_status()
 
     def add_label(self, page_id, label):
@@ -235,7 +249,9 @@ class ConfluenceExporter(HTMLExporter):
         resp = requests.post('{server}/rest/api/content/{page_id}/label'.format(server=self.server,
                                                                                 page_id=page_id),
                              json=[dict(prefix='global', name=label)],
-                             auth=(self.username, self.password))
+                             auth=(self.username, self.password),
+                             cookies=self.cookies
+                             )
         resp.raise_for_status()
 
     def add_or_update_attachment(self, filename, data, resources):
@@ -267,7 +283,9 @@ class ConfluenceExporter(HTMLExporter):
                                  'X-Atlassian-Token': 'nocheck'
                              },
                              files=files,
-                             auth=(self.username, self.password))
+                             auth=(self.username, self.password),
+                             cookies=self.cookies
+                             )
         resp.raise_for_status()
         return resp
 

@@ -2,6 +2,7 @@ import argparse
 import getpass
 import os
 import sys
+import json
 
 from .api import notebook_to_page
 
@@ -26,9 +27,12 @@ def main(argv=None):
 
     username = os.getenv('CONFLUENCE_USERNAME')
     password = os.getenv('CONFLUENCE_PASSWORD')
+    cookies = json.loads(os.getenv('CONFLUENCE_COOKIES'))
     cfg = os.path.expanduser('~/.nbconflux')
 
     # Prefer credentials in environment variables
+    if cookies:
+        print('Using cookies from environment variables {}'.format(json.dumps(cookies)))
     if username and password:
         print('Using credentials for {} from environment variables'.format(username))
     elif os.path.isfile(cfg):
@@ -54,7 +58,7 @@ def main(argv=None):
     notebook_to_page(args.notebook, args.url, username, password,
                      generate_toc=not args.exclude_toc, attach_ipynb=not args.exclude_ipynb,
                      enable_style=not args.exclude_style, enable_mathjax=args.include_mathjax,
-                     extra_labels=args.extra_labels)
+                     extra_labels=args.extra_labels, cookies=cookies)
 
 if __name__ == '__main__':
     main()
