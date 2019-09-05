@@ -94,7 +94,7 @@ def test_post_to_confluence(notebook_path, page_url, server):
     # Makrdown image is <ac:image>
     assert '<ac:image ac:alt="Juputer Logo"><ri:url ri:value="http://jupyter.org/assets/nav_logo.svg"></ri:url></ac:image>' in html
     # Image is a properly versioned attachment
-    assert '<ac:image><ri:url ri:value="http://confluence.localhost/download/attachments/12345/output_6_0.png?version=6" /></ac:image>' in html
+    assert '<ac:image><ri:attachment ri:filename="output_6_0.png"/></ac:image>' in html
     # Input hidden, output shown
     assert 'sns.violinplot' not in html
     # Output hidden, input shown

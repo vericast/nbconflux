@@ -145,7 +145,7 @@ unknown type  {{ cell.type }}
 {% block data_png scoped %}
 <div class="output_png output_subarea {{ extra_class }}">
 {%- if 'image/png' in output.metadata.get('filenames', {}) %}
-<ac:image><ri:url ri:value="{{ resources['attachments'][output.metadata.filenames['image/png']][2] }}" /></ac:image>
+<ac:image><ri:attachment ri:filename="{{ output.metadata.filenames['image/png'] }}"/></ac:image>
 {%- endif %}
 </div>
 {%- endblock data_png %}
@@ -153,7 +153,7 @@ unknown type  {{ cell.type }}
 {% block data_jpg scoped %}
 <div class="output_jpeg output_subarea {{ extra_class }}">
 {%- if 'image/jpeg' in output.metadata.get('filenames', {}) %}
-<ac:image><ri:url ri:value="{{ resources['attachments'][output.metadata.filenames['image/jpeg']][2] }}" /></ac:image>
+<ac:image><ri:attachment ri:filename="{{ output.metadata.filenames['image/jpeg'] }}"/></ac:image>
 {%- endif %}
 </div>
 {%- endblock data_jpg %}
@@ -202,27 +202,29 @@ unknown type  {{ cell.type }}
 <p><em>This page originated from the notebook <a href="{{ resources['attachments'][resources['notebook_filename']]['download_url'] }}">{{ resources['notebook_filename'] }}</a> which is attached to this page for safe keeping.</em></p>
 {%- endif %}
 
+{% if resources.enable_style %}
 <ac:structured-macro ac:macro-id="8250dedf-fcaa-48da-b12d-0f929c620dc4" ac:name="style" ac:schema-version="1">
     <ac:parameter ac:name="import">https://nbviewer.jupyter.org/static/build/notebook.css</ac:parameter>
 </ac:structured-macro>
 
 <ac:structured-macro ac:macro-id="8250dedf-fcaa-48da-b12d-0f929c620dc4" ac:name="style" ac:schema-version="1">
     <ac:plain-text-body><![CDATA[
-        a.anchor-link {
-            display: none !important;
-        }
-        body div.output_subarea {
-            max-width: none;
-        }
-        body.page-gadget #main {
-            width: auto;
-        }
-        body.page-gadget {
-            padding-top: 0;
-        }
-        ]]>
+    a.anchor-link {
+        display: none !important;
+    }
+    body div.output_subarea {
+        max-width: none;
+    }
+    body.page-gadget #main {
+        width: auto;
+    }
+    body.page-gadget {
+        padding-top: 0;
+    }
+]]>
     </ac:plain-text-body>
 </ac:structured-macro>
+{% endif %}
 
 {%- if resources.enable_mathjax %}
 <ac:structured-macro ac:macro-id="c5e95bac-43c5-4db4-abd0-af1dfcf97384" ac:name="html" ac:schema-version="1">
