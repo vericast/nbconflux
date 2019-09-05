@@ -202,27 +202,29 @@ unknown type  {{ cell.type }}
 <p><em>This page originated from the notebook <a href="{{ resources['attachments'][resources['notebook_filename']]['download_url'] }}">{{ resources['notebook_filename'] }}</a> which is attached to this page for safe keeping.</em></p>
 {%- endif %}
 
+{% if resources.enable_style %}
 <ac:structured-macro ac:macro-id="8250dedf-fcaa-48da-b12d-0f929c620dc4" ac:name="style" ac:schema-version="1">
     <ac:parameter ac:name="import">https://nbviewer.jupyter.org/static/build/notebook.css</ac:parameter>
 </ac:structured-macro>
 
 <ac:structured-macro ac:macro-id="8250dedf-fcaa-48da-b12d-0f929c620dc4" ac:name="style" ac:schema-version="1">
     <ac:plain-text-body><![CDATA[
-        a.anchor-link {
-            display: none !important;
-        }
-        body div.output_subarea {
-            max-width: none;
-        }
-        body.page-gadget #main {
-            width: auto;
-        }
-        body.page-gadget {
-            padding-top: 0;
-        }
-        ]]>
+    a.anchor-link {
+        display: none !important;
+    }
+    body div.output_subarea {
+        max-width: none;
+    }
+    body.page-gadget #main {
+        width: auto;
+    }
+    body.page-gadget {
+        padding-top: 0;
+    }
+]]>
     </ac:plain-text-body>
 </ac:structured-macro>
+{% endif %}
 
 {%- if resources.enable_mathjax %}
 <ac:structured-macro ac:macro-id="c5e95bac-43c5-4db4-abd0-af1dfcf97384" ac:name="html" ac:schema-version="1">
