@@ -145,7 +145,7 @@ unknown type  {{ cell.type }}
 {% block data_png scoped %}
 <div class="output_png output_subarea {{ extra_class }}">
 {%- if 'image/png' in output.metadata.get('filenames', {}) %}
-<ac:image><ri:url ri:value="{{ resources['attachments'][output.metadata.filenames['image/png']][2] }}" /></ac:image>
+<ac:image><ri:attachment ri:filename="{{ output.metadata.filenames['image/png'] }}"/></ac:image>
 {%- endif %}
 </div>
 {%- endblock data_png %}
@@ -153,7 +153,7 @@ unknown type  {{ cell.type }}
 {% block data_jpg scoped %}
 <div class="output_jpeg output_subarea {{ extra_class }}">
 {%- if 'image/jpeg' in output.metadata.get('filenames', {}) %}
-<ac:image><ri:url ri:value="{{ resources['attachments'][output.metadata.filenames['image/jpeg']][2] }}" /></ac:image>
+<ac:image><ri:attachment ri:filename="{{ output.metadata.filenames['image/jpeg'] }}"/></ac:image>
 {%- endif %}
 </div>
 {%- endblock data_jpg %}
