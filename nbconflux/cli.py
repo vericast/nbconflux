@@ -21,7 +21,7 @@ def main(argv=None):
     parser.add_argument('--exclude-style', action='store_true', help='Do not include the Jupyter base stylesheet')
     parser.add_argument('--include-mathjax', action='store_true', help='Enable MathJax on the page')
     parser.add_argument('--extra-labels', nargs='+', type=str, help='Additional labels to add to the page')
-    parser.add_argument('--no-verify', action='store_true', help='Disable HTTP certificate verification')
+    parser.add_argument('--no-verify', action='store_true', help='Disable HTTPS certificate verification')
 
     args = parser.parse_args(argv or sys.argv[1:])
 
