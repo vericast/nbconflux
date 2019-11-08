@@ -61,7 +61,10 @@ class ConfluencePreprocessor(Preprocessor):
         resources['attachments'] = {}
         while path:
             url = '{server}{path}'.format(server=self.exporter.server, path=path)
-            resp = requests.get(url, auth=(self.exporter.username, self.exporter.password))
+            resp = requests.get(url,
+                                auth=(self.exporter.username, self.exporter.password),
+                                verify=not self.exporter.no_verify
+            )
             resp.raise_for_status()
             attachments = resp.json()
             # Build a map from attachment filename to attachment ID and attachment version

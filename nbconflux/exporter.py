@@ -52,6 +52,7 @@ class ConfluenceExporter(HTMLExporter):
     enable_style = Bool(config=True, default_value=True, help='Add basic Jupyter stylesheet?')
     enable_mathjax = Bool(config=True, default_value=False, help='Add MathJax to the page to render equations?')
     extra_labels = List(config=True, trait=Unicode(), help='List of additional labels to add to the page')
+    no_verify = Bool(config=True, default_value=False, help='Disable HTTPS certificate verification')
 
     @property
     def default_config(self):
@@ -159,7 +160,8 @@ class ConfluenceExporter(HTMLExporter):
             resp = requests.get('{server}/rest/api/content?title={title}&spaceKey={space}'.format(server=server,
                                                                                                   title=title,
                                                                                                   space=space),
-                                auth=(self.username, self.password)
+                                auth=(self.username, self.password),
+                                verify=not self.no_verify
                                )
             resp.raise_for_status()
             results = resp.json()['results']
@@ -191,7 +193,8 @@ class ConfluenceExporter(HTMLExporter):
         # Fetch version number from the existing page so that we can increment it by 1.
         resp = requests.get('{server}/rest/api/content/{page_id}'.format(server=self.server,
                                                                          page_id=page_id),
-                            auth=(self.username, self.password))
+                            auth=(self.username, self.password),
+                            verify=not self.no_verify)
         resp.raise_for_status()
         content = resp.json()
         version = content['version']['number']
@@ -212,7 +215,8 @@ class ConfluenceExporter(HTMLExporter):
                                    }
                                }
                             },
-                            auth=(self.username, self.password)
+                            auth=(self.username, self.password),
+                            verify=not self.no_verify
                            )
         resp.raise_for_status()
 
@@ -235,7 +239,8 @@ class ConfluenceExporter(HTMLExporter):
         resp = requests.post('{server}/rest/api/content/{page_id}/label'.format(server=self.server,
                                                                                 page_id=page_id),
                              json=[dict(prefix='global', name=label)],
-                             auth=(self.username, self.password))
+                             auth=(self.username, self.password),
+                             verify=not self.no_verify)
         resp.raise_for_status()
 
     def add_or_update_attachment(self, filename, data, resources):
@@ -267,7 +272,8 @@ class ConfluenceExporter(HTMLExporter):
                                  'X-Atlassian-Token': 'nocheck'
                              },
                              files=files,
-                             auth=(self.username, self.password))
+                             auth=(self.username, self.password),
+                             verify=not self.no_verify)
         resp.raise_for_status()
         return resp
 
