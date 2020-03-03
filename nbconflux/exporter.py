@@ -14,6 +14,8 @@ from nbconvert.filters.markdown_mistune import MarkdownWithMath
 from traitlets import Bool, List, Unicode
 from traitlets.config import Config
 
+DEFAULT_CSS = "https://nbviewer.jupyter.org/static/build/notebook.css"
+
 
 class ConfluenceExporter(HTMLExporter):
     """Converts a notebook into Confluence storage format XHTML and the
@@ -43,6 +45,8 @@ class ConfluenceExporter(HTMLExporter):
         Add the Jupyter base stylesheet to the page (default: True)
     enable_mathjax: traitlets.Bool
         Add MathJax to the page to render equations (default: False)
+    notebooks_css: traitlets.Unicode
+        Path to notebook css (default: "https://nbviewer.jupyter.org/static/build/notebook.css")
     """
     url = Unicode(config=True, help='Confluence URL to update with notebook content')
     username = Unicode(config=True, help='Confluence username')
@@ -52,6 +56,7 @@ class ConfluenceExporter(HTMLExporter):
     enable_style = Bool(config=True, default_value=True, help='Add basic Jupyter stylesheet?')
     enable_mathjax = Bool(config=True, default_value=False, help='Add MathJax to the page to render equations?')
     extra_labels = List(config=True, trait=Unicode(), help='List of additional labels to add to the page')
+    notebook_css = Unicode(config=True, default_value=DEFAULT_CSS, help="Path to the CSS")
 
     @property
     def default_config(self):
@@ -304,6 +309,7 @@ class ConfluenceExporter(HTMLExporter):
         resources['generate_toc'] = self.generate_toc
         resources['enable_mathjax'] = self.enable_mathjax
         resources['enable_style'] = self.enable_style
+        resources['notebook_css'] = self.notebook_css
 
         # Convert the notebook to Confluence storage format, which is XHTML-like
         html, resources = super(ConfluenceExporter, self).from_notebook_node(nb, resources, **kw)

@@ -203,7 +203,7 @@ unknown type  {{ cell.type }}
 {%- endif %}
 
 <ac:structured-macro ac:macro-id="8250dedf-fcaa-48da-b12d-0f929c620dc4" ac:name="style" ac:schema-version="1">
-    <ac:parameter ac:name="import">https://nbviewer.jupyter.org/static/build/notebook.css</ac:parameter>
+    <ac:parameter ac:name="import">{{ resources['notebook_css'] }}</ac:parameter>
 </ac:structured-macro>
 
 <ac:structured-macro ac:macro-id="8250dedf-fcaa-48da-b12d-0f929c620dc4" ac:name="style" ac:schema-version="1">
