@@ -106,6 +106,8 @@ def test_post_to_confluence(notebook_path, page_url, server):
     assert '<a href="http://confluence.localhost/download/attachments/12345/nbconflux-test.ipynb?version=1">nbconflux-test.ipynb</a>' in html
     # MathJax not included
     assert 'MathJax' not in html
+    # default css
+    assert 'https://nbviewer.jupyter.org/static/build/notebook.css' in html
 
     # Default label added to page
     req = server.calls[4].request
@@ -181,7 +183,7 @@ def test_optional_components(notebook_path, page_url, server):
     # Mock updating image attachment, but not the notebook attachment
     server.add('POST', 'http://confluence.localhost/rest/api/content/12345/child/attachment/1/data')
 
-    html, resources = nbconflux.notebook_to_page(notebook_path, page_url, 'fake-username', 'fake-pass', False, False, False, True)
+    html, resources = nbconflux.notebook_to_page(notebook_path, page_url, 'fake-username', 'fake-pass', False, False, False, True, None, 'http://myhost.com/notebook.css')
 
     # Excludes a table of contents macro
     assert 'ac:name="toc"' not in html
@@ -189,6 +191,8 @@ def test_optional_components(notebook_path, page_url, server):
     assert 'ipython.min.css' not in html
     # Includes MathJax
     assert 'MathJax' in html
+    # Test css has been overidden
+    assert 'http://myhost.com/notebook.css' in html
 
 
 def test_post_to_unknown(notebook_path, bad_page_url, server):

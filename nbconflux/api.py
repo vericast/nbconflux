@@ -6,7 +6,7 @@ from traitlets.config import Config
 
 def notebook_to_page(notebook_file, confluence_url, username=None, password=None,
                      generate_toc=True, attach_ipynb=True, enable_style=True, enable_mathjax=False,
-                     extra_labels=None):
+                     extra_labels=None, notebook_css=None):
     """Transforms the given notebook file into Confluence storage format and
     updates the given Confluence URL with its content.
 
@@ -35,6 +35,8 @@ def notebook_to_page(notebook_file, confluence_url, username=None, password=None
         Include the MathJax script and configuration (default: False)
     extra_labels: list, optional
         Additional labels to add to the page (default: None)
+    notebook_css: str, optional
+        Override path to notebook css (default: None - Use nbviewer.jupyter.org one)
     """
     if username is None:
         username = getpass.getuser()
@@ -52,6 +54,8 @@ def notebook_to_page(notebook_file, confluence_url, username=None, password=None
     c.ConfluenceExporter.enable_style = enable_style
     c.ConfluenceExporter.enable_mathjax = enable_mathjax
     c.ConfluenceExporter.extra_labels = extra_labels
+    if notebook_css:
+        c.ConfluenceExporter.notebook_css = notebook_css
 
     exporter = ConfluenceExporter(c)
     result = exporter.from_filename(notebook_file)
