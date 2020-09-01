@@ -202,7 +202,10 @@ class ConfluenceExporter(HTMLExporter):
         resp = requests.put('{server}/rest/api/content/{page_id}'.format(server=self.server,
                                                                          page_id=page_id),
                             json={
-                               'version': {"number":version + 1},
+                               'version': {
+                                   'number': version + 1,
+                                   'minorEdit': True,
+                                   },
                                'title': title,
                                'type': 'page',
                                'body': {
