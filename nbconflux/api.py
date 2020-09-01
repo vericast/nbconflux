@@ -6,7 +6,7 @@ from traitlets.config import Config
 
 def notebook_to_page(notebook_file, confluence_url, username=None, password=None,
                      generate_toc=True, attach_ipynb=True, enable_style=True, enable_mathjax=False,
-                     extra_labels=None):
+                     extra_labels=None, exclude_input=True):
     """Transforms the given notebook file into Confluence storage format and
     updates the given Confluence URL with its content.
 
@@ -52,6 +52,7 @@ def notebook_to_page(notebook_file, confluence_url, username=None, password=None
     c.ConfluenceExporter.enable_style = enable_style
     c.ConfluenceExporter.enable_mathjax = enable_mathjax
     c.ConfluenceExporter.extra_labels = extra_labels
+    c.ConfluenceExporter.exclude_input = exclude_input
 
     exporter = ConfluenceExporter(c)
     result = exporter.from_filename(notebook_file)
