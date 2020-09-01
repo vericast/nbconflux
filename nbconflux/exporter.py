@@ -72,9 +72,6 @@ class ConfluenceExporter(HTMLExporter):
                 'remove_all_outputs_tags': {'nooutput', 'no-output', 'no_output'},
                 'enabled': True
             },
-            'RegexRemovePreprocessor': {
-                'patterns': ['import nbconflux'],
-            },
             'ExtractOutputPreprocessor': {
                 'enabled': True
             },
@@ -102,7 +99,6 @@ class ConfluenceExporter(HTMLExporter):
 
         self.server, self.page_id = self.get_server_info(self.url)
         self.notebook_filename = None
-        self.exclude_input = True
 
     def get_server_info(self, url):
         """Given a human visitable Confluence URL copy/pasted from the browser
