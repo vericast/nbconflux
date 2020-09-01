@@ -73,7 +73,7 @@ class ConfluenceExporter(HTMLExporter):
                 'enabled': True
             },
             'RegexRemovePreprocessor': {
-                'patterns': {'import nbconflux'},
+                'patterns': ['import nbconflux'],
             },
             'ExtractOutputPreprocessor': {
                 'enabled': True
