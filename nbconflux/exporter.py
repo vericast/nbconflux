@@ -81,6 +81,10 @@ class ConfluenceExporter(HTMLExporter):
         c.merge(overrides)
         return c
 
+    @property
+    def template_paths(self):
+        return super().template_paths + [os.path.join(os.path.abspath(os.path.dirname(__file__)), 'templates')]
+
     def __init__(self, config, **kwargs):
         config.HTMLExporter.preprocessors = [ConfluencePreprocessor]
         config.HTMLExporter.filters = {
@@ -88,10 +92,12 @@ class ConfluenceExporter(HTMLExporter):
         }
 
         super(ConfluenceExporter, self).__init__(config=config, **kwargs)
-        self._preprocessors[-1].exporter = self
 
-        self.template_path = [os.path.abspath(os.path.dirname(__file__))]
-        self.template_file = 'confluence'
+        for preprocessor in self._preprocessors:
+            if isinstance(preprocessor, ConfluencePreprocessor):
+                preprocessor.exporter = self
+
+        self.template_file = 'confluence.tpl'
         # Must be at least a single character, or the header generator produces
         # an (invalid?) empty anchor tag that trips up bleach during
         # sanitization
