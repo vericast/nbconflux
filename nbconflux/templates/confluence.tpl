@@ -1,5 +1,5 @@
-{%- extends 'display_priority.tpl' -%}
-{% from 'mathjax.tpl' import mathjax %}
+{%- extends 'display_priority.j2' -%}
+{% from 'mathjax.html.j2' import mathjax %}
 
 {%- block header -%}
 {%- if resources.generate_toc %}
