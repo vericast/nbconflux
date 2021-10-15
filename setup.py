@@ -16,7 +16,7 @@ setup(
     long_description=long_description,
     long_description_content_type="text/markdown",
     author='Valassis Digital',
-    url='https://github.com/ vericast /nbconflux',
+    url='https://github.com/vericast/nbconflux',
     platforms=['Linux', 'Mac OSX', 'Windows'],
     packages=find_packages(),
     include_package_data = True,
