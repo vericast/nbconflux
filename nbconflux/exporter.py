@@ -87,7 +87,9 @@ class ConfluenceExporter(HTMLExporter):
         config.HTMLExporter.filters = {
             'sanitize_html': sanitize_html,
         }
-        config.TemplateExporter.template_file = str(pathlib.Path(__file__).parent / 'confluence.tpl')
+        tpfile = str(pathlib.Path(__file__).parent / 'confluence.tpl')
+        print(tpfile)
+        config.TemplateExporter.template_file = tpfile
 
         super(ConfluenceExporter, self).__init__(config=config, **kwargs)
 

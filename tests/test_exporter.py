@@ -1,9 +1,11 @@
 import os
+import pathlib
 
 from nbconflux import exporter
 import traitlets.config
 
 import pytest
+import dotenv
 
 
 def test_init():
@@ -21,6 +23,7 @@ def config():
 
     This should be populated for CI runs
     """
+    dotenv.load_dotenv()
     c = traitlets.config.Config()
 
     cpage = os.getenv("CONFLUENCE_TEST")
@@ -35,4 +38,4 @@ def config():
 
 def test_upload(config):
     exp = exporter.ConfluenceExporter(config=config)
-    exp.from_filename("notebooks/nbconflux-test.ipynb")
+    exp.from_filename(pathlib.Path(__file__).parent / "notebooks/nbconflux-test.ipynb")
