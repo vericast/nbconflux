@@ -2,6 +2,7 @@
 XML storage format and posts it to an existing page.
 """
 import os
+import pathlib
 import urllib.parse as urlparse
 
 import requests
@@ -86,12 +87,16 @@ class ConfluenceExporter(HTMLExporter):
         config.HTMLExporter.filters = {
             'sanitize_html': sanitize_html,
         }
+        tpfile = str(pathlib.Path(__file__).parent / 'confluence.tpl')
+        print(tpfile)
+        config.TemplateExporter.template_file = tpfile
 
         super(ConfluenceExporter, self).__init__(config=config, **kwargs)
-        self._preprocessors[-1].exporter = self
 
-        self.template_path = [os.path.abspath(os.path.dirname(__file__))]
-        self.template_file = 'confluence'
+        for preprocessor in self._preprocessors:
+            if isinstance(preprocessor, ConfluencePreprocessor):
+                preprocessor.exporter = self
+
         # Must be at least a single character, or the header generator produces
         # an (invalid?) empty anchor tag that trips up bleach during
         # sanitization

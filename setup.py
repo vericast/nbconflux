@@ -16,7 +16,7 @@ setup(
     long_description=long_description,
     long_description_content_type="text/markdown",
     author='Valassis Digital',
-    url='https://github.com/Valassis-Digital-Media/nbconflux',
+    url='https://github.com/vericast/nbconflux',
     platforms=['Linux', 'Mac OSX', 'Windows'],
     packages=find_packages(),
     include_package_data = True,
@@ -28,7 +28,7 @@ setup(
     },
     install_requires=[
         'bleach',
-        'nbconvert>=5.3',
+        'nbconvert>=6.0',
         'requests',
         'traitlets',
         'html5lib',
