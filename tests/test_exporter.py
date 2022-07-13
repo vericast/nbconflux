@@ -1,4 +1,5 @@
 import os
+import pathlib
 
 from nbconflux import exporter
 import traitlets.config
@@ -35,4 +36,4 @@ def config():
 
 def test_upload(config):
     exp = exporter.ConfluenceExporter(config=config)
-    exp.from_filename("notebooks/nbconflux-test.ipynb")
+    exp.from_filename(pathlib.Path(__file__).parent / "notebooks/nbconflux-test.ipynb")
