@@ -56,7 +56,22 @@ class ConfluenceExporter(HTMLExporter):
 
     @property
     def default_config(self):
+        # nbconvert returns a text/html containing an embedded png for images, this gets filtered out when
+        # send to confluence. So give image/png top priority here
         overrides = Config({
+            "NbConvertBase": {
+                "display_data_priority": [
+                    "image/png",
+                    "application/vnd.jupyter.widget-view+json",
+                    "application/javascript",
+                    "text/html",
+                    "text/markdown",
+                    "image/svg+xml",
+                    "text/latex",
+                    "image/jpeg",
+                    "text/plain",
+                ]
+            },
             'CSSHTMLHeaderPreprocessor': {
                 'enabled': False
             },
