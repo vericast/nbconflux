@@ -57,11 +57,10 @@ In&nbsp;[&nbsp;]:
 {% endblock output_prompt %}
 
 {% block input %}
-<div class="inner_cell">
-    <div class="input_area">
-{{ cell.source | highlight_code(metadata=cell.metadata) }}
-</div>
-</div>
+<ac:structured-macro ac:name="code" ac:schema-version="1">
+    <ac:parameter ac:name="language">python</ac:parameter>
+    <ac:plain-text-body><![CDATA[{{ cell.source }}]]></ac:plain-text-body>
+</ac:structured-macro>
 {%- endblock input %}
 
 {% block output %}
